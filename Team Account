@@ -1,0 +1,64 @@
+function tseamAccount(input) {
+    let account = input.shift().split(" ");
+    let index = 0;
+    let order = input[index];
+    index++;
+
+    while (order !== "Play!") {
+        let [comanda, nameOfGame] = order.split(" ");
+
+        switch (comanda) {
+            case "Install":
+                if (!account.includes(nameOfGame)) {
+                    account.push(nameOfGame);
+                }
+                break;
+            case "Uninstall":
+                if (account.includes(nameOfGame)) {
+                    let dell = account.indexOf(nameOfGame);
+                    account.splice(dell, 1);
+                }
+                break;
+            case "Update":
+                if (account.includes(nameOfGame)) {
+                    let update = account.indexOf(nameOfGame);
+                    account.splice(update, 1);
+                    account.push(nameOfGame);
+                }
+                break;
+            case "Expansion":
+                let newGame = [];
+                let str = "";
+                let expansion = 0;
+                let gameName = 0
+                for (let a = 0; a < nameOfGame.length; a++) {
+                    if (nameOfGame[a] !== "-") {
+                        str += nameOfGame[a];
+                    } else {
+                        newGame.push(str);
+                        str = "";
+                    }
+
+                }
+
+                gameName = newGame[0];
+                expansion = str;
+
+                if (account.includes(gameName)) {
+                    let upgrade = account.indexOf(gameName);
+                    if (upgrade == 0) {
+                        account.splice(1, upgrade, `${gameName}` + ":" + `${expansion}`);
+                    } else {
+                        account.splice(upgrade, 1, `${gameName}` + ":" + `${expansion}`);
+                    }
+
+                }
+            default: break;
+
+        }
+        order = input[index];
+        index++;
+
+    }
+    console.log(account.join(" "));
+}
